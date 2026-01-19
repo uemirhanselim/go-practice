@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+type Weapon string
+
+func getWeapon(weapon Weapon) string {
+	return string(weapon)
+}
 func main() {
 	numbers := []int{1, 2, 4}
 
