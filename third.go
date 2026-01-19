@@ -3,14 +3,9 @@ package main
 import "fmt"
 
 func main() {
-	//users := map[string]int{}
-	users := make(map[string]int)
-	users["esu"] = 23
+	numbers := []int{1, 2, 4}
 
-	for k, v := range users {
-		fmt.Printf("this is the key: %s and the value %d", k, v)
-	}
+	numbers = append(numbers, 2)
 
-	delete(users, "esu")
-	fmt.Println("delete:", users["esu"])
+	fmt.Println(numbers)
 }
