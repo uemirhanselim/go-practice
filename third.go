@@ -7,7 +7,7 @@ type Weapon string
 func getWeapon(weapon Weapon) string {
 	return string(weapon)
 }
-func main() {
+func mainthird() {
 	numbers := []int{1, 2, 4}
 
 	numbers = append(numbers, 2)
