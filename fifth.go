@@ -3,8 +3,27 @@ package main
 import "fmt"
 
 func main() {
-	numbers := []int{1, 2, 3, 4, 5}
-	for i := range len(numbers) {
-		fmt.Println(numbers[i])
+	maps := map[string]int{
+		"ali":   1,
+		"veli":  2,
+		"ahmet": 3,
+	}
+	for _, value := range maps {
+		fmt.Printf("the value %d", value)
+	}
+
+	name := "ali"
+
+	switch name {
+	case "ALI":
+		fmt.Println("ali")
+		break
+	case "VELI":
+		fmt.Println("veli")
+		return
+	case "AHMET":
+		fmt.Println("ahmet")
+	default:
+		fmt.Println("unknown")
 	}
 }
