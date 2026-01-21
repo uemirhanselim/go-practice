@@ -25,6 +25,6 @@ func getDamage(weapon WeaponType) int {
 
 }
 
-func main() {
+func main4() {
 	fmt.Println(getDamage(Hammer))
 }
