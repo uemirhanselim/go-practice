@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func mainfifth() {
 	maps := map[string]int{
 		"ali":   1,
 		"veli":  2,
