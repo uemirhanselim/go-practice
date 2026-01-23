@@ -21,6 +21,8 @@ func (i *InMemoryUserStore) Add(name string) error {
 	return nil
 }
 
+var a int = 10
+
 type UserService struct {
 	userStore UserStorer
 }
