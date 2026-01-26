@@ -2,23 +2,47 @@ package main
 
 import "fmt"
 
-type Entity struct {
-	name    string
-	id      string
-	version string
-	posx    int
-	posy    int
+type Position struct {
+	x, y int
 }
 
-type SpecialEntity struct {
-	Entity
-	specialField float64
+func (p Position) Move(d int) {
+	fmt.Printf("Moving %d units\n", d)
 }
+
+type Player struct {
+	Position
+}
+
+type Color int
+
+func (c Color) String() string {
+	switch c {
+	case colorBlue:
+		return "BLUE"
+	case colorRed:
+		return "RED"
+	case colorGreen:
+		return "GREEN"
+	case colorYellow:
+		return "YELLOW"
+	case colorPurple:
+		return "PURPLE"
+	default:
+		panic("invalid color")
+	}
+}
+
+const (
+	colorBlue Color = iota
+	colorRed
+	colorGreen
+	colorYellow
+	colorPurple
+)
 
 func main() {
-	entity := SpecialEntity{
-		specialField: 100.0,
-	}
-
-	fmt.Printf("%+v\n", entity)
+	p := Player{}
+	p.Move(1000)
+	fmt.Println(colorRed)
 }
