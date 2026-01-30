@@ -39,6 +39,7 @@ const (
 	colorGreen
 	colorYellow
 	colorPurple
+	colorCount
 )
 
 func main() {
