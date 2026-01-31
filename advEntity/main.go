@@ -2,48 +2,41 @@ package main
 
 import "fmt"
 
-type Position struct {
-	x, y int
+type Storage interface {
+	Get(id int) (any, error)
+	Put(id int, value any) error
 }
 
-func (p Position) Move(d int) {
-	fmt.Printf("Moving %d units\n", d)
+type UserStorage struct{}
+
+func (s *UserStorage) Get(id int) (any, error) {
+	return nil, nil
 }
 
-type Player struct {
-	Position
+func (s *UserStorage) Put(id int, value any) error {
+	return nil
 }
 
-type Color int
-
-func (c Color) String() string {
-	switch c {
-	case colorBlue:
-		return "BLUE"
-	case colorRed:
-		return "RED"
-	case colorGreen:
-		return "GREEN"
-	case colorYellow:
-		return "YELLOW"
-	case colorPurple:
-		return "PURPLE"
-	default:
-		panic("invalid color")
-	}
+func updateValue(id int, value any, storage Storage) error {
+	return storage.Put(id, value)
 }
 
-const (
-	colorBlue Color = iota
-	colorRed
-	colorGreen
-	colorYellow
-	colorPurple
-	colorCount
-)
+type Server struct {
+	storage Storage
+}
 
 func main() {
-	p := Player{}
-	p.Move(1000)
-	fmt.Println(colorRed)
+	server := &Server{
+		storage: &UserStorage{},
+	}
+
+	server.storage.Put(1, "emirhan")
+	value, err := server.storage.Get(1)
+
+	if err != nil {
+		fmt.Println("Error getting value:", err)
+		return
+	}
+
+	fmt.Println("Value:", value)
 }
