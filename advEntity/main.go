@@ -1,10 +1,33 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
+
+type Putter interface {
+	Put(id int, value any) error
+}
+
+type TransformFunc func(s string) string
+
+func UpperCase(s string) string {
+	return strings.ToUpper(s)
+}
+
+func Prefixer(prefix string) TransformFunc {
+	return func(s string) string {
+		return prefix + s
+	}
+}
+
+func transformString(s string, transformFunc TransformFunc) string {
+	return transformFunc(s)
+}
 
 type Storage interface {
+	Putter
 	Get(id int) (any, error)
-	Put(id int, value any) error
 }
 
 type UserStorage struct{}
