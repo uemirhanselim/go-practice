@@ -4,6 +4,8 @@ import "fmt"
 
 type Weapon string
 
+type WeaponTyp string
+
 func getWeapon(weapon Weapon) string {
 	return string(weapon)
 }
