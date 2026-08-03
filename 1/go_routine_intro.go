@@ -24,5 +24,4 @@ func main() {
 
 	printerch <- "foo"
 	<-done
-	//go delayedHello()
 }
