@@ -12,16 +12,24 @@ func delayedHello() {
 }
 
 func main() {
-	done := make(chan bool)
+	msgch := make(chan string, 128)
 
-	printerch := make(chan string)
+	msgch <- "A"
+	msgch <- "B"
+	msgch <- "C"
+	close(msgch)
 
-	go func() {
-		value := <-printerch
-		fmt.Println(value)
-		done <- true
-	}()
+	for {
+		msg, ok := <-msgch
 
-	printerch <- "foo"
-	<-done
+		if !ok {
+			break
+		}
+
+		fmt.Println(msg)
+	}
+
+	// for msg := range msgch {
+	// 	fmt.Println(msg)
+	// }
 }
