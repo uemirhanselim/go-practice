@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
 type Server struct {
@@ -12,24 +13,36 @@ type Server struct {
 func newServer() *Server {
 	return &Server{
 		quitch: make(chan struct{}),
-		msgch:  make(chan string),
+		msgch:  make(chan string, 128),
 	}
+}
+
+func (s *Server) sendMessage(msg string) {
+	s.msgch <- msg
 }
 
 func (s *Server) start() {
 	fmt.Println("Server is starting...")
+	s.loop()
+}
+
+func (s *Server) stop() {
+	close(s.quitch)
 }
 
 func (s *Server) loop() {
+mainloop:
 	for {
 		select {
 		case <-s.quitch:
+			fmt.Println("quit")
+			break mainloop
 		case msg := <-s.msgch:
 			s.handleMessage(msg)
-		default:
 		}
 
 	}
+	fmt.Println("quitting gracefully")
 }
 
 func (s *Server) handleMessage(msg string) {
@@ -37,5 +50,10 @@ func (s *Server) handleMessage(msg string) {
 }
 
 func main() {
-
+	s := newServer()
+	go func() {
+		time.Sleep(5 * time.Second)
+		s.stop()
+	}()
+	s.start()
 }
