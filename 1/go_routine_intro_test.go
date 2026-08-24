@@ -19,5 +19,7 @@ func TestServer(t *testing.T) {
 
 	}
 	wg.Wait()
+
+	//commetn
 	fmt.Println(state.count)
 }
