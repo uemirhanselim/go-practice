@@ -16,7 +16,6 @@ func TestServer(t *testing.T) {
 			state.setState(i + 1)
 			wg.Done()
 		}(i)
-		// MARK
 	}
 	wg.Wait()
 
