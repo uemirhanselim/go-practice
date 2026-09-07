@@ -1,6 +1,12 @@
 package main
 
-import "sync/atomic"
+import (
+	"context"
+	"fmt"
+	"log"
+	"sync/atomic"
+	"time"
+)
 
 type State struct {
 	//mu    sync.Mutex
@@ -15,7 +21,50 @@ func (s *State) setState(i int) {
 }
 
 func main() {
+	start := time.Now()
+	ctx := context.WithValue(context.Background(), "username", "Emirhangg")
+	userId, err := fetchuserId(ctx)
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
 
+	fmt.Printf("Response took %v -> %+v\n", time.Since(start), userId)
+
+}
+
+func fetchuserId(ctx context.Context) (string, error) {
+	ctx, cancel := context.WithTimeout(ctx, time.Millisecond*100)
+	defer cancel()
+
+	type Result struct {
+		userId string
+		err    error
+	}
+
+	val := ctx.Value("username")
+	fmt.Println("username:", val)
+
+	resultch := make(chan Result, 1)
+
+	go func() {
+		response, err := thirdPartyHttpCall()
+		resultch <- Result{
+			userId: response,
+			err:    err,
+		}
+	}()
+
+	select {
+	case <-ctx.Done():
+		return "", ctx.Err()
+	case result := <-resultch:
+		return result.userId, result.err
+	}
+}
+
+func thirdPartyHttpCall() (string, error) {
+	time.Sleep(time.Millisecond * 100)
+	return "user id 1", nil
 }
 
 // Keeping Server alive
